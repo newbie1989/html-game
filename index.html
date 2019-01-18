@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title></title>
+
+<style type="text/css">
+
+	.grid { 
+		margin: auto;
+	 border-collapse:collapse; 
+	}
+
+	.grid td {
+	    cursor: pointer;
+	    width: 30px; 
+	    height: 30px;
+	    border: 1px solid black;
+	}
+
+</style>
+</head>
+
+<body>
+<form >
+	<div>
+		<p> 0 < n < 2000</p>
+		<p> 0 < y < 4000000</p>
+		<p> 0 < z < 5</p>
+
+	</div>
+
+	<div>
+		<label>Enter the value of n: <input id="matrix-order" required="" type="number"  min="0" max="2000"></input></label><br/>
+		<label>Enter the value of y: <input id="colored-boxes" required="" type="number"  min="0" max="4000000"></input></label><br/>
+		<label>Enter the value of z: <input id="time-interval" required="" type="number"  min="0" max="5"></input></label><br/>
+
+		<button type="button" onclick="return start()">Start</button>
+	</div>
+
+
+</form>
+
+<div id="game"></div>
+
+<script type="text/javascript">
+
+function start(){
+	var f = document.getElementsByTagName('form')[0];
+  if(!f.checkValidity()) {
+    alert("Input correct values");
+    return false;
+  } 
+
+	if(interval){
+		clearInterval(interval);
+	}
+	document.querySelector("#game").innerHTML = "";
+	var matrixOrder = document.querySelector("#matrix-order").value;
+	var total = matrixOrder * matrixOrder;
+	var colored = document.querySelector("#colored-boxes").value;
+	if(colored > total) {
+		colored = total;
+	}
+	var time = document.querySelector("#time-interval").value;
+
+	var nonColored = total - colored;
+
+ 	grid = clickableGrid(matrixOrder,matrixOrder);
+	
+	document.querySelector("#game").appendChild(grid);
+	grid.addEventListener("click", function(e){
+		console.log(e.target)
+		var el = e.target;
+		if(el.bgColor) {
+		  el.bgColor = "";
+		  nonColored++;
+		  colored--;
+		}
+
+		if(nonColored === total) {
+			alert("you win");
+		  clearInterval(interval)
+		}
+	})
+	     
+	function clickableGrid( rows, cols ){
+	    var i = 0;
+	    var grid = document.createElement('table');
+	    grid.className = 'grid';
+	    for (var r = 0; r < rows; ++r){
+	        var tr = grid.appendChild(document.createElement('tr'));
+	        for (var c = 0; c < cols; ++c){
+	            var cell = tr.appendChild(document.createElement('td'));
+	            ++i;
+	            if(i <= colored) {
+	            	cell.bgColor = "red";
+	            }
+	        }
+	    }
+	    return grid;
+	}
+
+
+var interval = setInterval(function(){
+
+	for (var i = 0, row; row = grid.rows[i]; i++) {
+	   for (var j = 0, col; col = row.cells[j]; j++) {
+				//console.log(row.cells[j],"--",row.cells[j].bgColor )
+				if(row.cells[j].bgColor === "") {
+
+					row.cells[j].bgColor = "red";
+					nonColored-- ;
+					colored++ ;
+				if(colored === total) {
+					alert("you lose");
+				  clearInterval(interval);
+				}
+				return;
+				}
+
+	   }  
+	}
+}, time * 1000)
+
+}
+   
+</script>
+
+</body>
+
+</html>
