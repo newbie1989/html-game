@@ -3,12 +3,12 @@
 
 <head>
     <title></title>
-
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <style type="text/css">
 
 	.grid { 
 		margin: auto;
-	 border-collapse:collapse; 
+	 /*border-collapse:collapse; */
 	}
 
 	.grid td {
@@ -22,26 +22,25 @@
 </head>
 
 <body>
-<form >
-	<div>
-		<p> 0 < n < 2000</p>
-		<p> 0 < y < 4000000</p>
-		<p> 0 < z < 5</p>
+<div  class="container-fluid">
+	<form >
+		<div>
+			<p><label>0 < n < 2000 </label></p>
+			<p><label> 0 < y < 4000000 </label></p>
+			<p><label> 0 < z < 5 </label></p>
 
-	</div>
+		</div>
+		<div>
+			<label>Enter the value of n (Rows/Colums): <input id="matrix-order" required="" type="number"  min="0" max="2000"></input></label><br/>
+			<label>Enter the value of y (Pre coloured boxes): <input id="colored-boxes" required="" type="number"  min="0" max="4000000"></input></label><br/>
+			<label>Enter the value of z (Time Interval): <input id="time-interval" required="" type="number"  min="0" max="5"></input></label><br/>
 
-	<div>
-		<label>Enter the value of n: <input id="matrix-order" required="" type="number"  min="0" max="2000"></input></label><br/>
-		<label>Enter the value of y: <input id="colored-boxes" required="" type="number"  min="0" max="4000000"></input></label><br/>
-		<label>Enter the value of z: <input id="time-interval" required="" type="number"  min="0" max="5"></input></label><br/>
+			<button type="button" class="btn btn-primary btn-sm" onclick="return start()">Start</button>
+		</div>
+	</form>
+	<div id="game"></div>
+</div>
 
-		<button type="button" onclick="return start()">Start</button>
-	</div>
-
-
-</form>
-
-<div id="game"></div>
 
 <script type="text/javascript">
 
@@ -79,7 +78,7 @@ function start(){
 		}
 
 		if(nonColored === total) {
-			alert("you win");
+			alert("You Win!");
 		  clearInterval(interval)
 		}
 	})
@@ -113,7 +112,7 @@ var interval = setInterval(function(){
 					nonColored-- ;
 					colored++ ;
 				if(colored === total) {
-					alert("you lose");
+					alert("You Lose!");
 				  clearInterval(interval);
 				}
 				return;
